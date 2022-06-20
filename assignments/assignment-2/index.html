@@ -1,0 +1,66 @@
+<!--
+Author: Charles Liu
+Program: Intro to Cloud Computing Assignment 1
+-->
+
+<!DOCTYPE HTML>
+
+<html>
+
+    <head>
+        <title>Charles Liu - Assignment 1</title>
+        <meta charset="utf-8">
+        <meta name = "description" content = "This is an amazing, awesome website">
+        <style>
+            /* .btn {
+              border: black;
+              background-color: white;
+              padding: 14px 28px;
+              font-size: 16px;
+              cursor: pointer;
+              display: inline-block;
+            } */
+            
+            /* .btn:hover {background: #eee;}
+            
+            .success {color: green;}
+            .info {color: dodgerblue;}
+            .warning {color: orange;}
+            .danger {color: red;}
+            .default {color: black;} */
+        </style>
+        <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+        <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+        <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+        <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+        <script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+        <script type="text/javascript" src="lib/url-template/url-template.js"></script>
+        <script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+        <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+        <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+        <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+        <script type="text/javascript" src="apigClient.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+
+    <body>
+        
+        <h1>Hi! Welcome to my first cloud computing assignment! My name is Charles Liu and my net ID is cl5522.</h1>
+        <p>Please post your questions: </p>
+        <textarea rows = "10" cols = "30">
+        </textarea>
+        <button type="btn post">Post</button>
+        <p></p>
+        
+
+        <button onclick = "window.location.href= 'https://1of4u01xtd.execute-api.us-east-1.amazonaws.com/Dev/answers' ">Show Answers</button>
+
+        
+        <p></p>
+        <textarea rows = "10" cols = "30">
+        </textarea>
+
+    </body>
+</html>
+
+
