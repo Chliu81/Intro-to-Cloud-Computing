@@ -1,0 +1,71 @@
+---
+swagger: "2.0"
+info:
+  description: "A simple API to get and post things for my Intro to Cloud Computing\
+    \ Assignment 2"
+  version: "1.0"
+  title: "Intro to Cloud Computing"
+host: "1of4u01xtd.execute-api.us-east-1.amazonaws.com"
+basePath: "/Dev"
+schemes:
+- "https"
+paths:
+  /answers:
+    get:
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfMODEL4e1f9b"
+        "400":
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/MODEL4e969a"
+  /questions:
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "MODELcfde85"
+        required: true
+        schema:
+          $ref: "#/definitions/MODELcfde85"
+      responses:
+        "200":
+          description: "200 response"
+        "400":
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/MODELd0d84e"
+definitions:
+  ArrayOfMODEL4e1f9b:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        answer_content:
+          type: "string"
+      required:
+      - "answer_content"
+  MODELd0d84e:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+  MODELcfde85:
+    type: "object"
+    required:
+    - "question_content"
+    properties:
+      question_content:
+        type: "string"
+  MODEL4e969a:
+    type: "object"
+    properties:
+      message:
+        type: "string"
