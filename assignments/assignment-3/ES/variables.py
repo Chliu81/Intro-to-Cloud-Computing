@@ -1,0 +1,5 @@
+ACCESS_KEY = 'Charles'
+SECRET_KEY = 'Cc20011002!*'
+ES_URL = 'https://search-post1-xx3ised4hmqhtgwx22ar7o5lsa.us-east-1.es.amazonaws.com/'
+USER = 'charles'
+PASS = 'Aa12345!'
