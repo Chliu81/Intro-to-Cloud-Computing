@@ -1,26 +1,96 @@
-import json
+#Author: Charles Liu
+#Program: Intro to Cloud computing, LF1 code
+
+import requests
+from datetime import datetime
 import boto3
+import json
+#from requests_aws4auth import AWS4Auth
 
-client = boto3.client('dynamodb')
 
+region = 'us-east-1' # For example, us-west-1
+service = 'es'
+#credentials = boto3.Session().get_credentials()
+#awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
+
+host = 'https://search-post1-xx3ised4hmqhtgwx22ar7o5lsa.us-east-1.es.amazonaws.com/' # The OpenSearch domain endpoint with https://
+index = 'posts'
+url = host + '/' + index + '/_search'
+
+headers = { "Content-Type": "application/json"}
+
+# Lambda execution starts here
 def lambda_handler(event, context):
-    # TODO implement
+
+    # Put the user query into the query DSL for more accurate search results.
+    # Note that certain fields are boosted (^).
+    
+    print('event: ', json.dumps(event))
+    
+    #processed_query = event['queryStringParameters']['q']
+    processed_query = event['queryStringParameters']['q']
+    
+    #print(processed_query)
+    
+    query = {
+        "size": 25,
+        "query": {
+            "multi_match": {
+                "query": processed_query,
+                "fields": ["tags"]
+            }
+        }
+    }
+
+    path = 'https://search-post1-xx3ised4hmqhtgwx22ar7o5lsa.us-east-1.es.amazonaws.com/posts/_doc/_search?q=tags:' + processed_query
+
+    #result = requests.get(url, headers=headers, auth=('charles', 'Aa12345!'), data = json.dumps(query))
+    response = requests.get(path, headers=headers, auth=('charles', 'Aa12345!'))
+    
+    #print(response.text)
+    dict1 = json.loads(response.text)
+    
+    processed_response = dict1['hits']['hits']
+    
+    
+    #print(processed_response)
+
+    client = boto3.client('dynamodb')
     dynamodb = boto3.resource('dynamodb', region_name = 'us-east-1')
     table = dynamodb.Table('Posts')
     
-    response = table.scan()
+    post_list = []
     
-    data = response['Items']
-    
-    for ele in data:
-        tags = ele["tags"]
+    for ele in processed_response:
+        
+        id = ele['_source']['id']
+        #print(type(id))
+        
+        
+        data = client.get_item(
+            TableName='Posts',
+            Key={
+                'ID': {
+                  'N': str(id)
+                }
+            }
+        )
+        
+        post = data['Item']['Post']['S']
+        #print(post, '\n')
+        post_list.append(post)
+      
+  
     
     now = datetime.now()
     date = now.strftime("%d/%m/%Y %H:%M:%S")
+    result = json.dumps({'Successfully Searched': post_list, 'date': date})
     
-    post = event["content"]
     
     return {
-        'statusCode': 200,
-        'body': json.dumps({'Successfully uploaded': post, 'date': date, 'ID': 1})
+        "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin": "*"},
+        "multiValueHeaders": {},
+        "body": result,
+        "isBase64Encoded": False
     }

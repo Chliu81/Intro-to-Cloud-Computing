@@ -1,3 +1,6 @@
+#Author: Charles Liu
+#Program: Intro to Cloud computing, LF0 code
+
 import json
 import boto3
 from datetime import datetime
@@ -6,6 +9,7 @@ client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     # TODO implement
+    print(event)
     dynamodb = boto3.resource('dynamodb', region_name = 'us-east-1')
     table = dynamodb.Table('Posts')
     
@@ -17,5 +21,5 @@ def lambda_handler(event, context):
     
     return {
         'statusCode': 200,
-        'body': json.dumps({'Successfully uploaded': post, 'date': date, 'ID': 1})
+        'body': {'Successfully uploaded': post, 'date': date, 'ID': 1}
     }

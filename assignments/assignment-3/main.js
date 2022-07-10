@@ -1,7 +1,37 @@
 
 
 function search(){
-  const raw_tags = document.getElementById("answers").value;
+  const raw_tag = document.getElementById("answers").value;
+  url = 'https://ciw53fwcnk.execute-api.us-east-1.amazonaws.com/Dev/answers?q=' + raw_tag
+  fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    origin: '*',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }).then((response) => response.json())
+  .then((data)=>{
+    const processed_obj = JSON.stringify(data);
+    const obj = JSON.parse(processed_obj);
+    var post_lst = obj["Successfully Searched"];
+    var iterator = post_lst.values();
+    var idx = 1;
+    var paragraph = ""
+    for (let i = 0; i < post_lst.length; ++i){
+      paragraph += i+1 + ": "+ post_lst[i] + "\n" ;
+      idx +=1;
+    }
+    document.getElementById('output2').value = paragraph
+    
+    
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
 }
 
 
